@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    # Use the development command for hot-reloading via pnpm
+    command: pnpm run start:dev # Changed from npm run start:dev
+    environment:
+      NODE_ENV: development
+    # Ports and volumes remain the same logic
+    ports:
+      - '${PORT:-3000}:3000'
+      # - '9229:9229' # Debug port if needed
+    volumes:
+      # Mount local source code into the container for hot-reloading
+      - ./src:/usr/src/app/src:delegated
+      - ./test:/usr/src/app/test:delegated
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+      - ./nest-cli.json:/usr/src/app/nest-cli.json
+      # Mount package files in case start:dev triggers installs/updates
+      # or if you want changes reflected immediately without rebuild
+      - ./package.json:/usr/src/app/package.json
+      - ./pnpm-lock.yaml:/usr/src/app/pnpm-lock.yaml
+      # Anonymous volume to prevent host node_modules from overwriting container's
+      - /usr/src/app/node_modules
+
+  db:
+    ports:
+      - '5432:5432'

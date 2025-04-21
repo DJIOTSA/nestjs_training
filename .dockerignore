@@ -1,0 +1,15 @@
+.git
+.github
+.vscode
+node_modules # Still ignore this
+npm-debug.log
+pnpm-debug.log # Add pnpm log file
+dist
+.env
+*.env
+# Ignore lock file if you want the build to always use the repo's version
+# Or keep it commented if you want the build to potentially use an updated one inside
+# pnpm-lock.yaml
+docker-compose.yml
+docker-compose.override.yml
+README.md
