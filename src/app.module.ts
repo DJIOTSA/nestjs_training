@@ -1,19 +1,10 @@
-// import { Module } from '@nestjs/common';
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
-
-// @Module({
-//   imports: [],
-//   controllers: [AppController],
-//   providers: [AppService],
-// })
-// export class AppModule {}
-
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 // Optional: Use Joi for validation
 import * as Joi from 'joi';
@@ -27,7 +18,7 @@ import * as Joi from 'joi';
       // Or load .env by default:
       // envFilePath: '.env',
       // ignoreEnvFile: process.env.NODE_ENV === 'production', // Don't load .env file in production
-      cache: true, // Improve performance
+      cache: true,
 
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
@@ -64,6 +55,10 @@ import * as Joi from 'joi';
         logging: configService.get<string>('NODE_ENV') !== 'production',
       }),
     }),
+
+    AuthModule,
+
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
